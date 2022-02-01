@@ -2,6 +2,7 @@ const input = window.prompt("Rock, Paper, or Scissors?");
 const playerSelection = input.toLowerCase();
 const computerSelection = computerPlay();
 
+//simulates the choice of the computer in game
 function computerPlay() {
     const result = Math.floor(Math.random() * 3);
     let selection = "";
@@ -18,39 +19,43 @@ function computerPlay() {
     return selection;
 
 }
-
+// a highly unoptimized round simulation that contains all win and lose conditions
 function playRound(playerSelection, computerSelection) {
-
+    let result = "";
     if (playerSelection == "rock" && computerSelection == "paper") {
-        console.log("Paper Beats Rock!");
+        result = "Paper Beats Rock You Lose!";
     } else if (playerSelection == "rock" && computerSelection == "scissors") {
-        console.log("Rock Beats Scissors!");
+        result = "Rock Beats Scissors You Win!";
     } else if (playerSelection == "rock" && computerSelection == "rock") {
-        console.log("Its A Tie!");
+        result = "Its A Tie!";
     } else if (playerSelection == "paper" && computerSelection == "rock") {
-        console.log("Paper Beats Rock!");
+        result = "Paper Beats Rock You Win!";
     } else if (playerSelection == "paper" && computerSelection == "paper") {
-        console.log("Its A Tie!");
+        result = "Its A Tie!";
     } else if (playerSelection == "paper" && computerSelection == "scissors") {
-        console.log("Scissors Beats Paper!");
+        result = "Scissors Beats Paper You Lose!";
     } else if (playerSelection == "scissors" && computerSelection == "rock") {
-        console.log("Rock Beats Scissors!");
+        result = "Rock Beats Scissors You Lose!";
     } else if (playerSelection == "scissors" && computerSelection == "paper") {
-        console.log("Scissors Beats Paper!");
+        result = "Scissors Beats Paper You Win!";
     } else if (playerSelection == "scissors" && computerSelection == "scissors") {
-        console.log("Its A Tie!");
+        result = "Its A Tie!";
     }
-    //console.log(playRound(playerSelection, computerSelection)); maximum call stack exceeded
+
+    return result;
 }
 
 
-
-if (playerSelection == "rock" || playerSelection == "paper" || playerSelection !== "scissors") {
-    playRound()
+//this will keep te user from using inputs other than those relevant to the game
+if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissors") {
+    alert(playRound(playerSelection, computerSelection));
 } else {
-    alert("error please refresh and use one of the prompted inputs.");
+    alert("please refresh and use one of the prompted inputs.");
 }
 
-//need to figure how to call the function to test if the code even works
+function game(){
+    for (i = 0;i < 5;i++){
+    playRound(playerSelection, computerSelection)
+    }
 
-
+}
