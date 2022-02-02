@@ -1,11 +1,18 @@
-const input = playerInput();
-const playerSelection = input.toLowerCase();
+alert("Lets Play 5 Rounds of Rock Paper Scissors!")
+
+const playerSelection = "rock"; //playerSelection starts initialized in order to not double prompt at the start
 const computerSelection = computerPlay();
 
 //player input prompt function
 function playerInput() {
     result = window.prompt("Rock, Paper, or Scissors?");
-    return result;
+    return result.toLowerCase();
+}
+
+//for when things get hairy
+function abort() {
+    alert("please refresh and use a valid input");
+    Process.exit(1)
 }
 
 //simulates the choice of the computer in game
@@ -56,6 +63,9 @@ function playRound(playerSelection, computerSelection) {
     } else if (playerSelection == "scissors" && computerSelection == "scissors") {
         //result = "Its A Tie!";
         x = 2;
+    } else {
+        //keeps users from inputting invalid values throughout the game
+        abort();
     }
 
     return x;
@@ -65,20 +75,29 @@ function playRound(playerSelection, computerSelection) {
 function game() {
     let playerScore = 0;
     let computerScore = 0;
+
     for (let i = 0; i < 5; i++) {
-        playerInput();
-        let result = playRound(playerSelection, computerSelection);
-        //player loses
-        if (result = 0) {
+        //let player = playerInput();  
+        //let computer = computerPlay();
+        let player= playerInput();
+        let computer = computerPlay();
+        let result = 0;
+        //have to use new variables in these parameters to call the functions for new values otherwise the winner of the first round will every round due to the global const variables not changing (i think)//
+        result = playRound(player, computer);
+
+
+        if (result == 0) {   //player loses
             computerScore += 1;
-            //player wins
-        } else if (result = 1) {
+            alert("Computer Wins!")
+
+        } else if (result == 1) {    //player wins  
             playerScore += 1;
-            //tie condition
-        } else if (result = 2) {
-            playerScore += 1;
-            computerScore += 1;
+            alert("Player Wins")
+
+        } else if (result == 2) {    //tie condition
+            alert("Its A Tie!")
         }
+
 
     }
     //shows the winner
@@ -93,14 +112,13 @@ function game() {
     score = `player score is ${playerScore} points, versus computers score of ${computerScore} points. ${winner}`
 
     return score;
-    //print the winner and prefereably the total score of player AND computer
 }
 
-//this will keep the user from using inputs other than those relevant to the game
+//this will keep the user from using inputs other than those relevant to the game at the opening prompt
 if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissors") {
     let score = game();
     alert(score);
 } else {
-    alert("please refresh and use one of the prompted inputs.");
+    abort();
 }
 
