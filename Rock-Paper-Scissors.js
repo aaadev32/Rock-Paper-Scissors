@@ -1,15 +1,21 @@
-alert("Lets Play 5 Rounds of Rock Paper Scissors!")
+//alert("Lets Play 5 Rounds of Rock Paper Scissors!")
 
-const playerSelection = "rock"; //playerSelection starts initialized in order to not double prompt at the start
+let playerSelection = null; //playerSelection starts initialized in order to not double prompt at the start
 const computerSelection = computerPlay();
+const buttons = document.querySelectorAll('button');
+const results = document.getElementsByClassName('results')
+
+
 
 //player input prompt function
-function playerInput() {
-    result = window.prompt("Rock, Paper, or Scissors?");
-    return result.toLowerCase();
+function playerInput(str) {
+    
+    val = str;
+    return val;
 }
 
 //for when things get hairy
+
 function abort() {
     alert("please refresh and use a valid input");
     Process.exit(1)
@@ -63,10 +69,10 @@ function playRound(playerSelection, computerSelection) {
     } else if (playerSelection == "scissors" && computerSelection == "scissors") {
         //result = "Its A Tie!";
         x = 2;
-    } else {
+    } /*else {
         //keeps users from inputting invalid values throughout the game
         abort();
-    }
+    }*/
 
     return x;
 }
@@ -75,50 +81,48 @@ function playRound(playerSelection, computerSelection) {
 function game() {
     let playerScore = 0;
     let computerScore = 0;
-
-    for (let i = 0; i < 5; i++) {
-        //let player = playerInput();  
-        //let computer = computerPlay();
-        let player= playerInput();
-        let computer = computerPlay();
-        let result = 0;
-        //have to use new variables in these parameters to call the functions for new values otherwise the winner of the first round will every round due to the global const variables not changing (i think)//
-        result = playRound(player, computer);
+    let x = document.getElementById(playerPoints);
+    let y = document.getElementById(computerPoints);
 
 
-        if (result == 0) {   //player loses
-            computerScore += 1;
-            alert("Computer Wins!")
+    let result = 0;
+    //have to use new variables in these parameters to call the functions for new values otherwise the winner of the first round will every round due to the global const variables not changing (i think)//
+    result = playRound(playerSelection, computerSelection);
 
-        } else if (result == 1) {    //player wins  
-            playerScore += 1;
-            alert("Player Wins")
+    if (result == 0) {   //player loses
+        computerScore += 1;
+        y.textContent += 1;
+        alert("Computer Wins!")
 
-        } else if (result == 2) {    //tie condition
-            alert("Its A Tie!")
-        }
+    } else if (result == 1) {    //player wins  
+        playerScore += 1;
+        x.textContent += 1;
+        alert("Player Wins")
 
-
+    } else if (result == 2) {    //tie condition
+        alert("Its A Tie!")
     }
-    //shows the winner
+
+
     if (playerScore < computerScore) {
-        winner = "Computer Wins!"
+        computerScore++;
     } else if (playerScore === computerScore) {
-        winner = "Its A Tie!"
+        computerScore++;
+        playerScore++;
     } else {
-        winner = "You Win"
+        playerScore++;
     }
 
-    score = `player score is ${playerScore} points, versus computers score of ${computerScore} points. ${winner}`
-
-    return score;
+    return playerScore, computerScore;
 }
 
-//this will keep the user from using inputs other than those relevant to the game at the opening prompt
-if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissors") {
-    let score = game();
-    alert(score);
-} else {
-    abort();
-}
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playerSelection = playerInput(button.id);
+        game();
+    });
+});
 
+
+
+// textContent dom element not being used properly lines 93 and 98. figure out 2/29/22
