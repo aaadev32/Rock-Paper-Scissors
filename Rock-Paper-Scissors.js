@@ -1,15 +1,17 @@
 //alert("Lets Play 5 Rounds of Rock Paper Scissors!")
 
 let playerSelection = null; //playerSelection starts initialized in order to not double prompt at the start
-const computerSelection = computerPlay();
+let computerSelection = null;
 const buttons = document.querySelectorAll('button');
-const results = document.getElementsByClassName('results')
-
-
+//const results = document.querySelectorAll('h2')
+const playerTotal = document.getElementById(playerPoints);
+const computerTotal = document.getElementById(computerPoints);
+const roundTotal = document.getElementById(roundPoints);
+let round = 0;
 
 //player input prompt function
 function playerInput(str) {
-    
+
     val = str;
     return val;
 }
@@ -33,7 +35,7 @@ function computerPlay() {
         selection = "scissors";
     }
 
-    console.log(result);
+    //console.log(result);
     console.log(selection);
     return selection;
 
@@ -73,7 +75,7 @@ function playRound(playerSelection, computerSelection) {
         //keeps users from inputting invalid values throughout the game
         abort();
     }*/
-
+    console.log(x);
     return x;
 }
 
@@ -83,46 +85,44 @@ function game() {
     let computerScore = 0;
     let x = document.getElementById(playerPoints);
     let y = document.getElementById(computerPoints);
-
-
+    let round = 0;
     let result = 0;
-    //have to use new variables in these parameters to call the functions for new values otherwise the winner of the first round will every round due to the global const variables not changing (i think)//
+
     result = playRound(playerSelection, computerSelection);
 
-    if (result == 0) {   //player loses
-        computerScore += 1;
-        y.textContent += 1;
-        alert("Computer Wins!")
 
-    } else if (result == 1) {    //player wins  
-        playerScore += 1;
-        x.textContent += 1;
-        alert("Player Wins")
-
-    } else if (result == 2) {    //tie condition
-        alert("Its A Tie!")
-    }
-
-
-    if (playerScore < computerScore) {
+    if (result == 0) {
         computerScore++;
-    } else if (playerScore === computerScore) {
+    } else if (result == 1) {
+        playerScore++;
+    } else if (result == 2) {
+        playerScore++;
         computerScore++;
-        playerScore++;
-    } else {
-        playerScore++;
     }
+    round++;
+    console.log(playerScore, computerScore, round);
 
-    return playerScore, computerScore;
+    playerPoints.textContent = `Player Score ${playerScore}`;
+    computerPoints.textContent = `Computer Score ${computerScore}`;
+    roundPoints.textContent = `Round ${round}`;
+    return playerScore, computerScore, round;
 }
+
+//use this to play 5 rounds somehow.
 
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
+        computerSelection = computerPlay();
         playerSelection = playerInput(button.id);
         game();
+        console.log(playerSelection);
+        round++;
     });
 });
 
+if (roundPoints < 5) {
+
+}
 
 
 // textContent dom element not being used properly lines 93 and 98. figure out 2/29/22
