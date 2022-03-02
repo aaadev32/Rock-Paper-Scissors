@@ -3,11 +3,15 @@
 let playerSelection = null; //playerSelection starts initialized in order to not double prompt at the start
 let computerSelection = null;
 const buttons = document.querySelectorAll('button');
-//const results = document.querySelectorAll('h2')
-const playerTotal = document.getElementById(playerPoints);
-const computerTotal = document.getElementById(computerPoints);
-const roundTotal = document.getElementById(roundPoints);
-let round = 0;
+let playerTotal = document.getElementById(playerPoints);
+let computerTotal = document.getElementById(computerPoints);
+let roundTotal = document.getElementById(roundPoints);
+let round = 1;
+let pScore = 0;
+let cScore = 0;
+let temp = null;
+
+
 
 //player input prompt function
 function playerInput(str) {
@@ -35,7 +39,6 @@ function computerPlay() {
         selection = "scissors";
     }
 
-    //console.log(result);
     console.log(selection);
     return selection;
 
@@ -71,11 +74,8 @@ function playRound(playerSelection, computerSelection) {
     } else if (playerSelection == "scissors" && computerSelection == "scissors") {
         //result = "Its A Tie!";
         x = 2;
-    } /*else {
-        //keeps users from inputting invalid values throughout the game
-        abort();
-    }*/
-    console.log(x);
+    }
+    console.log(x)
     return x;
 }
 
@@ -83,29 +83,20 @@ function playRound(playerSelection, computerSelection) {
 function game() {
     let playerScore = 0;
     let computerScore = 0;
-    let x = document.getElementById(playerPoints);
-    let y = document.getElementById(computerPoints);
-    let round = 0;
+    let x = 0;
     let result = 0;
 
     result = playRound(playerSelection, computerSelection);
 
-
     if (result == 0) {
-        computerScore++;
+        x = 0;
     } else if (result == 1) {
-        playerScore++;
+        x = 1
     } else if (result == 2) {
-        playerScore++;
-        computerScore++;
+        x = 2
     }
-    round++;
-    console.log(playerScore, computerScore, round);
 
-    playerPoints.textContent = `Player Score ${playerScore}`;
-    computerPoints.textContent = `Computer Score ${computerScore}`;
-    roundPoints.textContent = `Round ${round}`;
-    return playerScore, computerScore, round;
+    return x;
 }
 
 //use this to play 5 rounds somehow.
@@ -114,15 +105,50 @@ buttons.forEach((button) => {
     button.addEventListener('click', () => {
         computerSelection = computerPlay();
         playerSelection = playerInput(button.id);
-        game();
         console.log(playerSelection);
+        temp = game();
         round++;
-    });
+
+        if (temp == 0 && round < 6) {
+            cScore += 1;
+            alert('You Lost The Round!')
+        } else if (temp == 1 && round < 6) {
+            pScore += 1;
+            alert('You Won The Round!')
+        } else if (temp == 2 && round < 6) {
+            pScore += 1;
+            cScore += 1;
+            alert(`It's A Tied Round!`)
+        } else if (round >= 6 && pScore > cScore) {
+            cScore += 1;
+            alert('You Win The Game!')
+            round = 1;
+            pScore = 0;
+            cScore = 0;
+        } else if (round >= 6 && cScore > pScore) {
+            pScore += 1;
+            alert('You Lost The Game!')
+            round = 1;
+            pScore = 0;
+            cScore = 0;
+        } else if (round >= 6 && cScore == pScore) {
+            pScore += 1;
+            cScore += 1;
+            alert(`It's A Tied Game!`);
+            round = 1;
+            pScore = 0;
+            cScore = 0;
+        }
+
+
+
+            roundPoints.textContent = `Round: ${round}`;
+            playerPoints.textContent = `Player Score: ${pScore}`;
+            computerPoints.textContent = `Computer Score: ${cScore}`;
+        });
 });
 
-if (roundPoints < 5) {
 
-}
 
 
 // textContent dom element not being used properly lines 93 and 98. figure out 2/29/22
