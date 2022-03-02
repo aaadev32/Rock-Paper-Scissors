@@ -110,43 +110,40 @@ buttons.forEach((button) => {
         temp = game();
         round++;
 
-        if (temp == 0 && round < 6) {
+        if (temp == 0 && round <= 6) {
             cScore += 1;
-            prompts.textContent = 'You Lost The Round!';
-        } else if (temp == 1 && round < 6) {
+            prompts.textContent = `You Lost Round ${round - 1}!`;
+        } else if (temp == 1 && round <= 6) {
             pScore += 1;
-            prompts.textContent = 'You Won The Round!';
-        } else if (temp == 2 && round < 6) {
+            prompts.textContent = `You Won Round ${round - 1}!`;
+        } else if (temp == 2 && round <= 6) {
             pScore += 1;
             cScore += 1;
-            prompts.textContent = `It's A Tied Round!`;
-        } else if (round >= 6 && pScore > cScore) {
-            cScore += 1;
-            prompts.textContent = 'You Win The Game!';
+            prompts.textContent = `You Tied Round ${round - 1}!`;
+        }
+        
+        if (round == 6 && pScore > cScore) {
+            prompts.textContent = `You Win The Game!  ${pScore} : ${cScore}`;
             round = 1;
             pScore = 0;
             cScore = 0;
-        } else if (round >= 6 && cScore > pScore) {
-            pScore += 1;
-            prompts.textContent = 'You Lost The Game!';
+        } else if (round == 6 && cScore > pScore) {
+            prompts.textContent = `You Lost The Game!  ${pScore} : ${cScore}`;
             round = 1;
             pScore = 0;
             cScore = 0;
-        } else if (round >= 6 && cScore == pScore) {
-            pScore += 1;
-            cScore += 1;
-            prompts.textContent = `It's A Tied Game!`;
+        } else if (round == 6 && cScore == pScore) {
+            prompts.textContent = `It's A Tied Game!  ${pScore} : ${cScore}`;
             round = 1;
             pScore = 0;
             cScore = 0;
         }
 
-
-
-            roundPoints.textContent = `Round: ${round}`;
-            playerPoints.textContent = `Player Score: ${pScore}`;
-            computerPoints.textContent = `Computer Score: ${cScore}`;
-        });
+        
+        roundPoints.textContent = `Round: ${round}`;
+        playerPoints.textContent = `Player Score: ${pScore}`;
+        computerPoints.textContent = `Computer Score: ${cScore}`;
+    });
 });
 
 
