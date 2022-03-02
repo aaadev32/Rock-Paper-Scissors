@@ -6,6 +6,7 @@ const buttons = document.querySelectorAll('button');
 let playerTotal = document.getElementById(playerPoints);
 let computerTotal = document.getElementById(computerPoints);
 let roundTotal = document.getElementById(roundPoints);
+
 let round = 1;
 let pScore = 0;
 let cScore = 0;
@@ -111,30 +112,30 @@ buttons.forEach((button) => {
 
         if (temp == 0 && round < 6) {
             cScore += 1;
-            alert('You Lost The Round!')
+            prompts.textContent = 'You Lost The Round!';
         } else if (temp == 1 && round < 6) {
             pScore += 1;
-            alert('You Won The Round!')
+            prompts.textContent = 'You Won The Round!';
         } else if (temp == 2 && round < 6) {
             pScore += 1;
             cScore += 1;
-            alert(`It's A Tied Round!`)
+            prompts.textContent = `It's A Tied Round!`;
         } else if (round >= 6 && pScore > cScore) {
             cScore += 1;
-            alert('You Win The Game!')
+            prompts.textContent = 'You Win The Game!';
             round = 1;
             pScore = 0;
             cScore = 0;
         } else if (round >= 6 && cScore > pScore) {
             pScore += 1;
-            alert('You Lost The Game!')
+            prompts.textContent = 'You Lost The Game!';
             round = 1;
             pScore = 0;
             cScore = 0;
         } else if (round >= 6 && cScore == pScore) {
             pScore += 1;
             cScore += 1;
-            alert(`It's A Tied Game!`);
+            prompts.textContent = `It's A Tied Game!`;
             round = 1;
             pScore = 0;
             cScore = 0;
