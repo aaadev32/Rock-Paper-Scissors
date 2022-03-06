@@ -1,12 +1,6 @@
-//alert("Lets Play 5 Rounds of Rock Paper Scissors!")
-
-let playerSelection = null; //playerSelection starts initialized in order to not double prompt at the start
-let computerSelection = null;
 const buttons = document.querySelectorAll('button');
-let playerTotal = document.getElementById(playerPoints);
-let computerTotal = document.getElementById(computerPoints);
-let roundTotal = document.getElementById(roundPoints);
-
+let playerSelection = null;
+let computerSelection = null;
 let round = 1;
 let pScore = 0;
 let cScore = 0;
@@ -16,19 +10,11 @@ let temp = null;
 
 //player input prompt function
 function playerInput(str) {
-
     val = str;
     return val;
 }
 
-//for when things get hairy
-
-function abort() {
-    alert("please refresh and use a valid input");
-    Process.exit(1)
-}
-
-//simulates the choice of the computer in game
+//simulates the choice of the computer when called
 function computerPlay() {
     const result = Math.floor(Math.random() * 3);
     let selection = "";
@@ -42,72 +28,52 @@ function computerPlay() {
 
     console.log(selection);
     return selection;
-
 }
-// a highly unoptimized round simulation that contains all win and lose conditions
+
+//takes the player and computer choices from the event listener and simulates 1 round
 function playRound(playerSelection, computerSelection) {
     let result = "";
     let x = 0;
     if (playerSelection == "rock" && computerSelection == "paper") {
-        //result = "Paper Beats Rock You Lose!";
+        //"Paper Beats Rock You Lose!";
         x = 0;
     } else if (playerSelection == "rock" && computerSelection == "scissors") {
-        //result = "Rock Beats Scissors You Win!";
+        //"Rock Beats Scissors You Win!";
         x = 1;
     } else if (playerSelection == "rock" && computerSelection == "rock") {
-        //result = "Its A Tie!";
+        //"Its A Tie!";
         x = 2;
     } else if (playerSelection == "paper" && computerSelection == "rock") {
-        //result = "Paper Beats Rock You Win!";
+        //"Paper Beats Rock You Win!";
         x = 1;
     } else if (playerSelection == "paper" && computerSelection == "paper") {
-        //result = "Its A Tie!";
+        //"Its A Tie!";
         x = 2
     } else if (playerSelection == "paper" && computerSelection == "scissors") {
-        //result = "Scissors Beats Paper You Lose!";
+        //"Scissors Beats Paper You Lose!";
         x = 0
     } else if (playerSelection == "scissors" && computerSelection == "rock") {
-        //result = "Rock Beats Scissors You Lose!";
+        //"Rock Beats Scissors You Lose!";
         x = 0
     } else if (playerSelection == "scissors" && computerSelection == "paper") {
-        //result = "Scissors Beats Paper You Win!";
+        //"Scissors Beats Paper You Win!";
         x = 1;
     } else if (playerSelection == "scissors" && computerSelection == "scissors") {
-        //result = "Its A Tie!";
+        //"Its A Tie!";
         x = 2;
     }
     console.log(x)
     return x;
 }
 
-//simulates 5 rounds of rock paper scissors and prompts the score and winner
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    let x = 0;
-    let result = 0;
 
-    result = playRound(playerSelection, computerSelection);
-
-    if (result == 0) {
-        x = 0;
-    } else if (result == 1) {
-        x = 1
-    } else if (result == 2) {
-        x = 2
-    }
-
-    return x;
-}
-
-//use this to play 5 rounds somehow.
-
+//event listener that checks player selection and calls functions to get computer selection then simulates a round returning the round winner, total score, and overall winner.
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
         computerSelection = computerPlay();
         playerSelection = playerInput(button.id);
         console.log(playerSelection);
-        temp = game();
+        temp = playRound(playerSelection, computerSelection);
         round++;
 
         if (temp == 0 && round <= 6) {
@@ -117,8 +83,8 @@ buttons.forEach((button) => {
             pScore += 1;
             prompts.textContent = `You Won Round ${round - 1}!`;
         } else if (temp == 2 && round <= 6) {
-            pScore += 1;
-            cScore += 1;
+            pScore += 0;
+            cScore += 0;
             prompts.textContent = `You Tied Round ${round - 1}!`;
         }
         
@@ -139,14 +105,8 @@ buttons.forEach((button) => {
             cScore = 0;
         }
 
-        
         roundPoints.textContent = `Round: ${round}`;
         playerPoints.textContent = `Player Score: ${pScore}`;
         computerPoints.textContent = `Computer Score: ${cScore}`;
     });
 });
-
-
-
-
-// textContent dom element not being used properly lines 93 and 98. figure out 2/29/22
